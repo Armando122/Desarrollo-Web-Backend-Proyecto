@@ -1,6 +1,0 @@
-com/customer/api/service/SvcRegion.class
-com/customer/api/controller/CtrlRegion.class
-com/customer/CustomerApplication.class
-com/customer/api/entity/Region.class
-com/customer/api/repository/RepoRegion.class
-com/customer/api/service/SvcRegionImp.class
