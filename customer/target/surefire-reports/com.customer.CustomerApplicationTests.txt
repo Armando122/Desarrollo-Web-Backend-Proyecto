@@ -1,0 +1,10 @@
+-------------------------------------------------------------------------------
+Test set: com.customer.CustomerApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 4.264 s <<< FAILURE! - in com.customer.CustomerApplicationTests
+contextLoads  Time elapsed: 0.014 s  <<< ERROR!
+java.lang.IllegalStateException: Failed to load ApplicationContext
+Caused by: org.springframework.cloud.config.client.ConfigClientFailFastException: Could not locate PropertySource and the resource is not optional, failing
+Caused by: java.lang.IllegalStateException: Invalid URL: http//root:adminadmin@localhost:8888/
+Caused by: java.net.MalformedURLException: no protocol: http//root:adminadmin@localhost:8888/
+
