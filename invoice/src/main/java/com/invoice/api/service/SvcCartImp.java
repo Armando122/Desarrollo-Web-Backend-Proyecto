@@ -13,7 +13,10 @@ import com.invoice.api.dto.DtoProduct;
 import com.invoice.api.entity.Cart;
 import com.invoice.api.repository.RepoCart;
 import com.invoice.configuration.client.CustomerClient;
+import com.invoice.configuration.client.ProductClient;
 import com.invoice.exception.ApiException;
+import com.invoice.api.repository.RepoItem;
+import com.invoice.api.entity.Item;
 
 @Service
 public class SvcCartImp implements SvcCart {
@@ -24,6 +27,11 @@ public class SvcCartImp implements SvcCart {
 	@Autowired
 	CustomerClient customerCl;
 
+	@Autowired
+	ProductClient productCl;
+
+	//@Autowired
+	//RepoItem  repoItem;
 
 
 	@Override
@@ -40,7 +48,7 @@ public class SvcCartImp implements SvcCart {
 		 * Requerimiento 3
 		 * Validar que el GTIN exista. Si existe, asignar el stock del producto a la variable product_stock
 		 */
-		Integer product_stock = 0; // cambiar el valor de cero por el stock del producto recuperado de la API Product
+		Integer product_stock = getStockProduct(cart.getGtin()); // cambiar el valor de cero por el stock del producto recuperado de la API Product
 
 		if(cart.getQuantity() > product_stock) {
 			throw new ApiException(HttpStatus.BAD_REQUEST, "invalid quantity");
@@ -50,6 +58,17 @@ public class SvcCartImp implements SvcCart {
 		 * Requerimiento 4
 		 * Validar si el producto ya había sido agregado al carrito para solo actualizar su cantidad
 		 */
+
+		 Item item= repo.getItembyGTIN(cart.getGtin());
+		 if(item!=null){
+			 if(cart.getQuantity() + product_stock > product_stock) {
+				 throw new ApiException(HttpStatus.BAD_REQUEST, "invalid quantity");
+			 }else{
+				 product_stock=cart.getQuantity() + item.getQuantity();
+				 cart.setQuantity(product_stock);
+			 }
+		 }
+
 
 		cart.setStatus(1);
 		repo.save(cart);
@@ -84,13 +103,27 @@ public class SvcCartImp implements SvcCart {
 		}
 	}
 
-	private boolean isThisProductAvailable(String gtin, Integer stock){
-		try{
-			ResponseEntity<DtoProduct> response=
-		}catch(Exception e){
-			throw new ApiException(HttpStatus.BAD_REQUEST, "unable to retrieve customer information");
-		}
-		return false;
+	private boolean validateProduct(String gtin){
+			try{
+				ResponseEntity<DtoProduct> response = productCl.getProduct(gtin);
+				if(response.getStatusCode() == HttpStatus.OK)
+					return true;
+				else
+					return false;
+			}catch(Exception e){
+				throw new ApiException(HttpStatus.BAD_REQUEST, "unable to retrieve product information");
+			}
+	}
+	/**
+	*Returns the stock from product
+	*/
+	private Integer getStockProduct(String gtin){
+		if(validateProduct(gtin)){
+			DtoProduct dtoProduct = productCl.getProduct(gtin).getBody();
+			//System.out.println(response.getStock());
+			return dtoProduct.getStock();
+		}else
+			throw new ApiException(HttpStatus.BAD_REQUEST, "product doesn't exist");
 	}
 
 }

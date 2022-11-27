@@ -10,10 +10,10 @@ public class DtoProduct {
 
 
   public Integer getStock(){
-    return stock
+    return stock;
   }
 
-  public Integer setStock(Integer stock){
+  public void setStock(Integer stock){
     this.stock=stock;
   }
 
@@ -21,10 +21,10 @@ public class DtoProduct {
     return gtin;
   }
 
-  public String setGTIN(String gtin){
+  public void setGTIN(String gtin){
     this.gtin=gtin;
   }
-  
+
   public boolean isStockAvailable(Integer whatImrequesting){
     return stock<=whatImrequesting;
   }
