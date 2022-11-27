@@ -37,7 +37,7 @@ public class SvcCartImp implements SvcCart {
 		 * Requerimiento 3
 		 * Validar que el GTIN exista. Si existe, asignar el stock del producto a la variable product_stock 
 		 */
-		Integer product_stock = 0; // cambiar el valor de cero por el stock del producto recuperado de la API Product 
+		Integer product_stock = 0; // cambiar el valor de cero por el stock del producto recuperado de la API Product
 		
 		if(cart.getQuantity() > product_stock) {
 			throw new ApiException(HttpStatus.BAD_REQUEST, "invalid quantity");

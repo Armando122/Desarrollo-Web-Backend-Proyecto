@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.customer.api.dto.ApiResponse;
 import com.customer.api.entity.Region;
 import com.customer.api.service.SvcRegion;
+import com.customer.exception.ApiException;
 
 @RestController
 @RequestMapping("/region")
@@ -38,27 +40,23 @@ public class CtrlRegion {
 	}
 	
 	@PostMapping
-	public ResponseEntity<String> createRegion(@Valid @RequestBody Region region, BindingResult bindingResult){
-		String message = "";
+	public ResponseEntity<ApiResponse> createRegion(@Valid @RequestBody Region region, BindingResult bindingResult){
 		if(bindingResult.hasErrors()) {
-			message = bindingResult.getAllErrors().get(0).getDefaultMessage();
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			throw new ApiException(HttpStatus.BAD_REQUEST, bindingResult.getAllErrors().get(0).getDefaultMessage());
 		}
 		return new ResponseEntity<>(svc.createRegion(region), HttpStatus.OK);
 	}
 	
 	@PutMapping("/{region_id}")
-	public ResponseEntity<String> updateRegion(@PathVariable int region_id, @Valid @RequestBody Region region, BindingResult bindingResult){
-		String message = "";
+	public ResponseEntity<ApiResponse> updateRegion(@PathVariable int region_id, @Valid @RequestBody Region region, BindingResult bindingResult){
 		if(bindingResult.hasErrors()) {
-			message = bindingResult.getAllErrors().get(0).getDefaultMessage();
-			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+			throw new ApiException(HttpStatus.BAD_REQUEST, bindingResult.getAllErrors().get(0).getDefaultMessage());
 		}
 		return new ResponseEntity<>(svc.updateRegion(region_id, region), HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/{region_id}")
-	public ResponseEntity<String> deleteRegion(@PathVariable int region_id){
+	public ResponseEntity<ApiResponse> deleteRegion(@PathVariable int region_id){
 		return new ResponseEntity<>(svc.deleteRegion(region_id), HttpStatus.OK);
 	}
 }
