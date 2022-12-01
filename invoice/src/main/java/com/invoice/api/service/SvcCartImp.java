@@ -67,11 +67,10 @@ public class SvcCartImp implements SvcCart {
 				 product_stock=cart.getQuantity() + item.getQuantity();
 				 cart.setQuantity(product_stock);
 			 }
+		 }else{
+			 cart.setStatus(1);
+			 repo.save(cart);
 		 }
-
-
-		cart.setStatus(1);
-		repo.save(cart);
 		return new ApiResponse("item added");
 	}
 
