@@ -59,18 +59,21 @@ public class SvcCartImp implements SvcCart {
 		 * Validar si el producto ya había sido agregado al carrito para solo actualizar su cantidad
 		 */
 
-		 Item item= repo.getItembyGTIN(cart.getGtin());
-		 if(item!=null){
-			 if(cart.getQuantity() + product_stock > product_stock) {
+		 Cart car = (Cart) repo.findCartbygtinAndRfc(cart.getGtin(), cart.getRfc());
+		 if(car!=null){
+			 if(car.getQuantity() + cart.getQuantity() > product_stock) {
 				 throw new ApiException(HttpStatus.BAD_REQUEST, "invalid quantity");
 			 }else{
-				 product_stock=cart.getQuantity() + item.getQuantity();
-				 cart.setQuantity(product_stock);
+				 product_stock=cart.getQuantity() + car.getQuantity();
+				 car.setQuantity(product_stock);
+				 repo.updateCartQuantity(car.getQuantity(),car.getGtin(),car.getRfc());
+				 return new ApiResponse("quantity updated");
 			 }
 		 }else{
 			 cart.setStatus(1);
 			 repo.save(cart);
 		 }
+		//setStockProduct(car.getQuantity(),cart.getGtin());
 		return new ApiResponse("item added");
 	}
 
@@ -124,5 +127,13 @@ public class SvcCartImp implements SvcCart {
 		}else
 			throw new ApiException(HttpStatus.BAD_REQUEST, "product doesn't exist");
 	}
+
+	/***/
+	/*private void setStockProduct(Integer quantity, String gtin){
+		if (validateProduct(gtin)){
+			DtoProduct dtoProduct = productCl.updateProduct(quantity,productCl.getProduct(gtin).getBody());
+		}
+	}*/
+
 
 }

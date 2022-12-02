@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
+import com.customer.api.repository.RepoRegion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,9 @@ public class SvcCustomerImp implements SvcCustomer {
 
 	@Autowired
 	RepoCustomerList repoCustomerList;
+
+	@Autowired
+	RepoRegion repoR;
 
 	@Override
 	public List<DtoCustomerList> getCustomers() {
