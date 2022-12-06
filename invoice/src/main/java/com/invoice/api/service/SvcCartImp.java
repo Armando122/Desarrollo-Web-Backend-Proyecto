@@ -15,8 +15,6 @@ import com.invoice.api.repository.RepoCart;
 import com.invoice.configuration.client.CustomerClient;
 import com.invoice.configuration.client.ProductClient;
 import com.invoice.exception.ApiException;
-import com.invoice.api.repository.RepoItem;
-import com.invoice.api.entity.Item;
 
 @Service
 public class SvcCartImp implements SvcCart {
@@ -73,7 +71,6 @@ public class SvcCartImp implements SvcCart {
 			 cart.setStatus(1);
 			 repo.save(cart);
 		 }
-		//setStockProduct(car.getQuantity(),cart.getGtin());
 		return new ApiResponse("item added");
 	}
 
@@ -122,18 +119,9 @@ public class SvcCartImp implements SvcCart {
 	private Integer getStockProduct(String gtin){
 		if(validateProduct(gtin)){
 			DtoProduct dtoProduct = productCl.getProduct(gtin).getBody();
-			//System.out.println(response.getStock());
 			return dtoProduct.getStock();
 		}else
 			throw new ApiException(HttpStatus.BAD_REQUEST, "product doesn't exist");
 	}
-
-	/***/
-	/*private void setStockProduct(Integer quantity, String gtin){
-		if (validateProduct(gtin)){
-			DtoProduct dtoProduct = productCl.updateProduct(quantity,productCl.getProduct(gtin).getBody());
-		}
-	}*/
-
 
 }

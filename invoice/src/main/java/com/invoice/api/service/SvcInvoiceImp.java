@@ -4,12 +4,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.invoice.api.dto.DtoProduct;
 import com.invoice.api.entity.Cart;
 import com.invoice.api.repository.RepoCart;
 import com.invoice.configuration.client.ProductClient;
 import com.invoice.exception.ApiException;
-import com.product.api.entity.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -19,10 +17,6 @@ import com.invoice.api.entity.Invoice;
 import com.invoice.api.entity.Item;
 import com.invoice.api.repository.RepoInvoice;
 import com.invoice.api.repository.RepoItem;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Service
 public class SvcInvoiceImp implements SvcInvoice {
