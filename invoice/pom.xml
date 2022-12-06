@@ -78,9 +78,15 @@
 			<artifactId>spring-cloud-starter-feign</artifactId>
 			<version>1.4.7.RELEASE</version>
 		</dependency>
+        <dependency>
+            <groupId>com</groupId>
+            <artifactId>product</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
 
-	</dependencies>
+    </dependencies>
 
 	<dependencyManagement>
 		<dependencies>
